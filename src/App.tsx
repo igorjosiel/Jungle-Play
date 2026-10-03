@@ -1,10 +1,26 @@
-import './App.css';
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { GameHub } from "@/pages/GameHub/GameHub";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <>
-      <h1 className='text-amber-900'>Testando a aplicação...</h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/games" replace />} />
+        <Route path="/games" element={
+          <QueryClientProvider client={queryClient}>
+            <GameHub />
+          </QueryClientProvider>}
+        />
+
+        <Route
+          path="/dashboard"
+          element={<div>Operator Dashboard</div>}
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
