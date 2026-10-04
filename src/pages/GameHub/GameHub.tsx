@@ -34,41 +34,71 @@ export function GameHub() {
   }
 
   return (
-    <main>
+    <div className="min-h-screen bg-zinc-950 text-white">
       <Header />
-      <h1>JunglePulse</h1>
 
-      <div>
-        {data?.games.map((game) => (
-          <GameCard
-            key={game.id}
-            game={game}
-            onPlay={(selectedGame) => {
-              setSelectedGame(game);
-              setIsModalOpen(true);
-            }}
-          />
-        ))}
-      </div>
+      <main className="mx-auto max-w-7xl px-6 py-10">
+        <section className="mb-10">
+          <p className="mb-2 text-sm font-medium text-emerald-400">
+            JUNGLEPULSE
+          </p>
 
-      <GameModal
-        game={selectedGame}
-        open={isModalOpen}
-        onOpenChange={setIsModalOpen}
-        onBet={(game: Game) => {
-          const result = placeBet(game.title);
+          <h1 className="text-4xl font-bold tracking-tight">
+            Encontre seu próximo jogo
+          </h1>
 
-          if (result.won) {
-            toast.success(
-              `Você ganhou R$ ${result.winAmount.toFixed(2).replace(".", ",")}`,
-            );
-          } else {
-            toast.error("Você perdeu a aposta.");
-          }
+          <p className="mt-3 max-w-2xl text-zinc-400">
+            Explore nossa seleção de jogos e encontre sua próxima
+            experiência.
+          </p>
+        </section>
 
-          setIsModalOpen(false);
-        }}
-      />
-    </main>
+        <section>
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-xl font-semibold">
+              Jogos em destaque
+            </h2>
+
+            <span className="text-sm text-zinc-500">
+              {data?.total ?? 0} jogos
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {data?.games.map((game) => (
+              <GameCard
+                key={game.id}
+                game={game}
+                onPlay={(game) => {
+                  setSelectedGame(game);
+                  setIsModalOpen(true);
+                }}
+              />
+            ))}
+          </div>
+        </section>
+
+        <GameModal
+          game={selectedGame}
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          onBet={(game) => {
+            const result = placeBet(game.title);
+
+            if (result.won) {
+              toast.success(
+                `Você ganhou R$ ${result.winAmount
+                  .toFixed(2)
+                  .replace(".", ",")}`,
+              );
+            } else {
+              toast.error("Você perdeu a aposta.");
+            }
+
+            setIsModalOpen(false);
+          }}
+        />
+      </main>
+    </div>
   );
 }
