@@ -1,4 +1,4 @@
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { subtractBalance, addBalance } from "@/store/slices/walletSlice";
 import { addTransaction } from "@/store/slices/transactionsSlice";
 
@@ -6,8 +6,17 @@ const BET_AMOUNT = 5;
 
 export function useBet() {
   const dispatch = useAppDispatch();
+  const balance = useAppSelector((state) => state.wallet.balance);
 
   function placeBet(game: string) {
+    if (balance < BET_AMOUNT) {
+      return {
+        won: false,
+        winAmount: 0,
+        insufficientBalance: true,
+      };
+    }
+
     const won = Math.random() > 0.5;
     const winAmount = won ? 25 : 0;
 
@@ -32,6 +41,7 @@ export function useBet() {
     return {
       won,
       winAmount,
+      insufficientBalance: false,
     };
   }
 

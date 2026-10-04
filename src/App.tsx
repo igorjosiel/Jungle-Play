@@ -1,9 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
 import { GameHub } from "@/pages/GameHub/GameHub";
-
-const queryClient = new QueryClient();
+import { GameLayout } from "./layouts/GameLayout";
 
 function App() {
   return (
@@ -12,11 +10,10 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Navigate to="/games" replace />} />
-        <Route path="/games" element={
-          <QueryClientProvider client={queryClient}>
-            <GameHub />
-          </QueryClientProvider>}
-        />
+
+        <Route path="/games" element={<GameLayout />}>
+          <Route index element={<GameHub />} />
+        </Route>
 
         <Route
           path="/dashboard"
