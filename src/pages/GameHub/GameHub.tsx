@@ -1,17 +1,26 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useGames } from "@/hooks/useGames";
+import { useBet } from "@/hooks/useBet";
 import { Header } from "@/components/header/Header";
 import { GameCard } from "@/components/game-card/GameCard";
-import { useBet } from "@/hooks/useBet";
 import { GameModal } from "@/components/game-modal/GameModal";
+import { SearchFilters } from "@/components/search-filters/SearchFilters";
 import type { Game } from "@/types/game";
 
 export function GameHub() {
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading, isError } = useGames();
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
+  const [provider, setProvider] = useState("");
+
+  const { data, isLoading, isError } = useGames({
+    search,
+    category,
+    provider,
+  });
 
   const { placeBet } = useBet();
 
@@ -52,6 +61,15 @@ export function GameHub() {
             experiência.
           </p>
         </section>
+
+        <SearchFilters
+          search={search}
+          category={category}
+          provider={provider}
+          onSearchChange={setSearch}
+          onCategoryChange={setCategory}
+          onProviderChange={setProvider}
+        />
 
         <section>
           <div className="mb-6 flex items-center justify-between">
