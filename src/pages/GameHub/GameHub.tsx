@@ -7,6 +7,7 @@ import { GameCard } from "@/components/game-card/GameCard";
 import { GameModal } from "@/components/game-modal/GameModal";
 import { SearchFilters } from "@/components/search-filters/SearchFilters";
 import type { Game } from "@/types/game";
+import { GameCardSkeleton } from "@/components/game-card-skeleton/GameCardSkeleton";
 
 export function GameHub() {
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
@@ -23,15 +24,6 @@ export function GameHub() {
   });
 
   const { placeBet } = useBet();
-
-  if (isLoading) {
-    return (
-      <>
-        <Header />
-        <div>Carregando jogos...</div>
-      </>
-    );
-  }
 
   if (isError) {
     return (
@@ -83,16 +75,20 @@ export function GameHub() {
           </div>
 
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {data?.games.map((game) => (
-              <GameCard
-                key={game.id}
-                game={game}
-                onPlay={(game) => {
-                  setSelectedGame(game);
-                  setIsModalOpen(true);
-                }}
-              />
-            ))}
+            {isLoading
+              ? Array.from({ length: 8 }).map((_, index) => (
+                <GameCardSkeleton key={index} />
+              ))
+              : data?.games.map((game) => (
+                <GameCard
+                  key={game.id}
+                  game={game}
+                  onPlay={(game) => {
+                    setSelectedGame(game);
+                    setIsModalOpen(true);
+                  }}
+                />
+              ))}
           </div>
         </section>
 

@@ -4,6 +4,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import type { Game } from "@/types/game";
 
 interface GameModalProps {
@@ -25,22 +26,60 @@ export function GameModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent className="border-zinc-800 bg-zinc-950 text-white sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{game.title}</DialogTitle>
+          <DialogTitle className="text-xl">
+            {game.title}
+          </DialogTitle>
         </DialogHeader>
 
-        <img
-          src={game.image}
-          alt={game.title}
-        />
+        <div className="space-y-5">
+          <img
+            src={game.image}
+            alt={game.title}
+            className="aspect-video w-full rounded-lg object-cover"
+          />
 
-        <p>{game.provider}</p>
-        <p>{game.category}</p>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-zinc-500">
+                Provider
+              </p>
 
-        <button onClick={() => onBet(game)}>
-          Girar / Apostar R$ 5,00
-        </button>
+              <p className="font-medium">
+                {game.provider}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-zinc-500">
+                Categoria
+              </p>
+
+              <p className="font-medium">
+                {game.category}
+              </p>
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+            <p className="text-sm text-zinc-400">
+              Valor da aposta
+            </p>
+
+            <p className="mt-1 text-2xl font-bold">
+              R$ 5,00
+            </p>
+          </div>
+
+          <Button
+            className="w-full"
+            size="lg"
+            onClick={() => onBet(game)}
+          >
+            Girar / Apostar
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );
