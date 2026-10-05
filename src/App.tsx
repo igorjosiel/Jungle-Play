@@ -1,7 +1,9 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster } from "sonner";
 import { GameHub } from "@/pages/GameHub/GameHub";
+import { Dashboard } from "@/pages/dashboard/Dashboard";
 import { GameLayout } from "./layouts/GameLayout";
+import { DashboardLayout } from "@/layouts/DashboardLayout";
 
 function App() {
   return (
@@ -15,10 +17,9 @@ function App() {
           <Route index element={<GameHub />} />
         </Route>
 
-        <Route
-          path="/dashboard"
-          element={<div>Operator Dashboard</div>}
-        />
+        <Route path="/dashboard" element={<DashboardLayout />}>
+          <Route index element={<Dashboard />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

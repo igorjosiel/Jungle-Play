@@ -5,7 +5,7 @@ interface WalletState {
 }
 
 const initialState: WalletState = {
-  balance: 250,
+  balance: 0,
 };
 
 const walletSlice = createSlice({
